@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>Регистрация</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "register.css" %}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          </button>
+          <a class="navbar-brand" href="">Регистрация</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    	<div class="starter-template" id="blank">
+      		<form class="form-horizontal" onsubmit="return submitForm(this);" action="{% url 'lab2:register_post' %}" method="post">
+			   {% csrf_token %}
+				  <fieldset>
+				  	<div id="form">
+				    <div class="control-group" id="top">
+				      <!-- login -->
+				      <label class="col-sm-3 control-label"  for="login">Логин</label>
+				      <div class="col-sm-9">
+				        <input type="text" id="login" name="login" placeholder="" class="input-xlarge">
+				        <p class="help-block">Придумайте свой логин</p>
+				      </div>
+				    </div>
+				 
+				    <div class="control-group">
+				      <!-- E-mail -->
+				      <label class="col-sm-3 control-label" for="email">E-mail</label>
+				      <div class="col-sm-9">
+				        <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+				        <p class="help-block">Введите свой email адрес</p>
+				      </div>
+				    </div>
+
+				    <div class="control-group">
+				      <!-- E-mail -->
+				      <label class="col-sm-3 control-label" for="name">Имя</label>
+				      <div class="col-sm-9">
+				        <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
+				        <p class="help-block">Введите своё имя</p>
+				      </div>
+				    </div>
+
+				    <div class="control-group">
+				      <!-- E-mail -->
+				      <label class="col-sm-3 control-label" for="phone">Телефон</label>
+				      <div class="col-sm-9">
+				        <input type="text" id="phone" name="phone" placeholder="" class="input-xlarge">
+				        <p class="help-block">Введите свой телефон</p>
+				      </div>
+				    </div>
+				 
+				    <div class="control-group">
+				      <!-- Password-->
+				      <label class="col-sm-3 control-label" for="password">Пароль</label>
+				      <div class="col-sm-9">
+				        <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+				        <p class="help-block">Пароль должен быть не меньше 6 символов</p>
+				      </div>
+				    </div>
+				 
+				    <div class="control-group">
+				      <!-- Password -->
+				      <label class="col-sm-3 control-label"  for="password_confirm">Пароль<br>(подтверждение)</label>
+				      <div class="col-sm-9">
+				        <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+				        <p class="help-block">Подтвердите пароль</p>
+				      </div>
+				    </div>
+				 
+				    <div class="control-group">
+				      <!-- Button -->
+				      <div class="button-reg">
+				        <button class="btn btn-success btn-lg btn-block" type="submit">Зарегистрировать</button>
+				      </div>
+				    </div>
+				    </div>
+				    <div type="hidden" id="logins" data="{{logins}}"/>
+	 				 <div id="emails" data="{{emails}}"/>
+	 		 </fieldset>
+	 		 </form>
+	 		 
+ 		</div>
+    </div>
+
+	
+  <script type="text/javascript">
+  		function submitForm(form){
+  			var error_text = checkForm(form);
+  			if(error_text == ""){
+  				return true;
+  			} else {
+  				//form.removeChild(form.parentNode);
+
+  				var div = document.createElement('div');
+  				div.setAttribute('id', "error_message");
+  				div.setAttribute('class', "alert alert-danger");
+  				div.setAttribute('role', 'alert');
+  				div.innerHTML = '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  <span class="sr-only">Ошибка:</span>' + error_text;
+  				
+  				var prev = document.getElementById("error_message");
+  				var element = document.getElementById("form");
+  				var child = document.getElementById("top");
+  				if(prev){
+  					element.replaceChild(div, prev);
+  				} else {
+  					element.insertBefore(div, child);
+  				}
+
+  				return false;
+  			}
+  		}
+
+
+  		function checkForm(form)
+  		{
+  			var error_text = "";
+  			if(form.login.value == "") {
+		      error_text = "Логин не указан."
+		      form.login.focus();
+		      return error_text;
+		    }
+		    re = /^\w+$/;
+		    if(!re.test(form.login.value)) {
+		      error_text = "Error: login must contain only letters, numbers and underscores!";
+		      form.login.focus();
+		      return error_text;
+		    }
+
+		    if(form.email.value == "") {
+		      error_text = "Почта не указана.";
+		      form.email.focus();
+		      return error_text;
+		    }
+
+		    if(form.password.value != "" && form.password.value == form.password_confirm.value) {
+		      if(form.password.value.length < 6) {
+		        error_text = "Пароль должен состоять не менее чем из 6 символов";
+		        form.password.focus();
+		        return error_text;
+		      }
+		      if(form.password.value == form.login.value) {
+		        error_text = "Пароль должен отличаться от логина";
+		        form.password.focus();
+		        return error_text;
+		      }
+		    } else if(form.password.value == "") {
+		     	error_text = "Пароль не введён";
+		      form.password.focus();
+		      return error_text;
+		    } else {
+		    	error_text = "Пароль не подтвержден";
+		     	 form.password_confirm.focus();
+		     	 return error_text;
+		    }
+
+		  var logins = '{{ logins|escapejs }}';
+		  var len = logins.length - 2
+		  logins = logins.substring(2, len)
+		  logins = logins.split("', '")
+		  if(logins){
+		  	for(var i = 0; i < logins.length; i++) {
+		  		if( form.login.value == logins[i]){
+		  			error_text = "Такой логин уже занят. Придумайте другой.";
+		  			return error_text
+		  		}
+		  	}
+		  }
+
+		  var emails = '{{ emails|escapejs }}';
+		  len = emails.length - 2
+		  emails = emails.substring(2, len)
+		  emails = emails.split("', '")
+		  if(emails){
+		  	for(var i = 0; i < emails.length; i++) {
+		  		if( form.email.value == emails[i]){
+		  			error_text = "Такой логин уже занят. Придумайте другой.";
+		  			return error_text
+		  		}
+		  	}
+		  }
+
+	
+	    return error_text;
+	}
+  </script>
+
+<!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+  </body>
+</html>
+
