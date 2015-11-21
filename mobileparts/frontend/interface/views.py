@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-#import logging
+import logging
 #import requests
 import json
 from django.core.cache import cache
@@ -17,8 +17,11 @@ def index(request):
 #                "password":"nikitos1"}
 
 #    headers = {'Content-type': 'application/json'}    
-    logger = logging.getLogger('frontend')        
+    logger = logging.getLogger('frontend')
 
+    context = {'latest_question_list': 0}
+#    return HttpResponse("Ok")
+    return render(request, 'interface/index.html', context)
 """
     r_manufacturers = requests.get("http://localhost:8000/backend_manufacturers/list/")
     try:
@@ -61,8 +64,6 @@ def index(request):
 #                        "data_devices": "data_devices",
 #                        "data_user": 0                            
 #                        }
-    return render(request, 'interface/index.html', """context""")
-
 
 """
 def check_user(request):

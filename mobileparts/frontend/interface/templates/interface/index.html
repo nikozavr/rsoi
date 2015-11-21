@@ -12,7 +12,7 @@
 
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Лабораторная работа №3</title>
+    <title>Запчасти для мобильных телефонов</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
@@ -38,7 +38,7 @@
       <div class="container">
         <div class="navbar-header">
           <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
-          <a class="navbar-brand" href="#">Лабораторная работа №3</a>
+          <a class="navbar-brand" href="#"> Запчасти для мобильных телефонов</a>
         </div>
         <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
         <div id="navbar">
@@ -48,12 +48,12 @@
   
           </ul>
           <ul class="nav navbar-nav navbar-right">
-          {% if data_user != 0 %}
-            <li><a href="#">Добро пожаловать, {{ data_user.name }}</a></li>
+         <!--{% if data_user != 0 %}
+            <li><a href="#">Добро пожаловать</a></li>
             <li><a href="/logout/">Выйти</a></li>
            {% else %}
            		<li><a href="/login/">Войти</a></li>
-           {% endif %}
+           {% endif %}-->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -69,9 +69,6 @@
 				    <div class="row custyle">
 				    <table class="table table-striped custab">
 				    <thead>
-				    {% if data_user != 0 %}
-				    <a href="{% url 'frontend:add_manufacturer' %}" class="btn btn-primary btn-xs pull-right">Добавить нового производителя</a>
-				    {% endif %}
 				        <tr>
 				            <th class="col-md-1 text-center">id</th>
 				            <th class="col-md-2 text-center">Название</th>
@@ -106,10 +103,7 @@
 				    <div class="row custyle">
 				    <table class="table table-striped custab">
 				    <thead>
-				    {% if data_user != 0 %}
-				    <a href="{% url 'frontend:add_device' %}" class="btn btn-primary btn-xs pull-right">Добавить новое устройство</a>
-				    {% endif %}
-				        <tr>
+			            <tr>
 				            <th class="col-md-1 text-center">id</th>
 				            <th class="col-md-2 text-center">Название</th>
 				            <th class="col-md-2 text-center">Производитель</th>
@@ -142,7 +136,7 @@
 			</div>
 		</div>
 
-    </div> <!-- /container -->
+    </div> 
 
 
     <!-- Bootstrap core JavaScript
@@ -153,7 +147,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
-	<script>
+<!--<script>
 		$(function () {
 		    $('#navbar a:last').tab('show')
 		  })
@@ -236,7 +230,6 @@
 			xhr.send();
 	    }
 
-	</script>
-
+	</script>-->
   </body>
 </html>
