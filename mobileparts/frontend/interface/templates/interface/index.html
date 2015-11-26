@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 {% load staticfiles %}
-<html lang="en">
-  <head>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- The above 2 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <!-- Note there is no responsive meta tag here -->
-
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>Запчасти для мобильных телефонов</title>
+    <title>Jumbotron Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static "non-responsive.css" %}" rel="stylesheet">
+    <link href="{% static "index.css" %}" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="./Jumbotron Template for Bootstrap_files/ie-emulation-modes-warning.js"></script><style type="text/css"></style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -33,203 +30,76 @@
 
   <body>
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <!-- The mobile navbar-toggle button can be safely removed since you do not need it in a non-responsive implementation -->
-          <a class="navbar-brand" href="#"> Запчасти для мобильных телефонов</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="http://getbootstrap.com/examples/jumbotron/#">MobileParts</a>
         </div>
-        <!-- Note that the .navbar-collapse and .collapse classes have been removed from the #navbar -->
-        <div id="navbar">
-          <ul class="nav navbar-nav">
-            <li role="presentation" class="active"><a href="#manufacturer" aria-controls="profile" role="tab" data-toggle="tab">Производители</a></li>
-            <li role="presentation"><a href="#device" aria-controls="profile" role="tab" data-toggle="tab">Устройства</a></li>
-  
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-         <!--{% if data_user != 0 %}
-            <li><a href="#">Добро пожаловать</a></li>
-            <li><a href="/logout/">Выйти</a></li>
-           {% else %}
-           		<li><a href="/login/">Войти</a></li>
-           {% endif %}-->
-          </ul>
-        </div><!--/.nav-collapse -->
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+
+          </form>
+        </div><!--/.navbar-collapse -->
       </div>
     </nav>
 
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="http://getbootstrap.com/examples/jumbotron/#" role="button">Learn more »</a></p>
+      </div>
+    </div>
+
     <div class="container">
-    	<div class="tab-content">
-	    	<div role="tabpanel" class="tab-pane active" id="manufacturer">
-		      <div class="page-header">
-		        <h1>Информация о производителях</h1>
-		      </div>
-		      <div class="container">
-				    <div class="row custyle">
-				    <table class="table table-striped custab">
-				    <thead>
-				        <tr>
-				            <th class="col-md-1 text-center">id</th>
-				            <th class="col-md-2 text-center">Название</th>
-				            <th class="col-md-1 text-center">Год основания</th>
-				            <th class="col-md-2 text-center">Страна</th>
-				            {% if data_user != 0 %}
-				            <th class="col-md-2 text-center">Действия</th>
-				            {% endif %}
-				        </tr>
-				    </thead>
-				    		{% for manufacturer in data_manufacturers.manufacturers %}
-				            <tr>
-				                <td class="text-center">{{ manufacturer.id }}</td>
-				                <td class="text-center">{{ manufacturer.name }}</td>
-				                <td class="text-center">{{ manufacturer.established }}</td>
-				                <td class="text-center">{{ manufacturer.country }}</td> 
-				                {% if data_user != 0 %}
-				                <td class="text-center"><a onclick="edit_manufacturer({{ manufacturer.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_manufacturer({{ manufacturer.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
-				                {% endif %}
-				            </tr>
-				            {% endfor %}
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="http://getbootstrap.com/examples/jumbotron/#" role="button">View details »</a></p>
+        </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+          <p><a class="btn btn-default" href="http://getbootstrap.com/examples/jumbotron/#" role="button">View details »</a></p>
+       </div>
+        <div class="col-md-4">
+          <h2>Heading</h2>
+          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          <p><a class="btn btn-default" href="http://getbootstrap.com/examples/jumbotron/#" role="button">View details »</a></p>
+        </div>
+      </div>
 
-				    </table>
-				    </div>
-				</div>
-			</div>
-			<div role="tabpanel" class="tab-pane" id="device">
-		      <div class="page-header">
-		        <h1>Информация о устройствах</h1>
-		      </div>
-		      <div class="container">
-				    <div class="row custyle">
-				    <table class="table table-striped custab">
-				    <thead>
-			            <tr>
-				            <th class="col-md-1 text-center">id</th>
-				            <th class="col-md-2 text-center">Название</th>
-				            <th class="col-md-2 text-center">Производитель</th>
-				            <th class="col-md-1 text-center">Тип устройства</th>
-				            <th class="col-md-1 text-center">Диагональ дисплея</th>
-				            <th class="col-md-1 text-center">Год</th>
-				            {% if data_user != 0 %}
-				            <th class="col-md-2 text-center">Действия</th>
-				            {% endif %}
-				        </tr>
-				    </thead>
-				    		{% for device in data_devices.devices %}
-				            <tr>
-				                <td class="text-center">{{ device.id }}</td>
-				                <td class="text-center">{{ device.name }}</td>
-				                <td class="text-center">{{ device.manufacturer }}</td>
-				                <td class="text-center">{{ device.device_type }}</td>
-				                <td class="text-center">{{ device.dig_disp }}</td>
-				                <td class="text-center">{{ device.year }}</td> 
-				                {% if data_user != 0 %}
-				                <td class="text-center"><a onclick="edit_device({{ device.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_device({{ device.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
-				                {% endif %}
-				            </tr>
-				            {% endfor %}
-				            <tr>
-				            </tr>
-				    </table>
-				    </div>
-				</div>
-			</div>
-		</div>
+      <hr>
 
-    </div> 
+      <footer>
+        <p>© Company 2014</p>
+      </footer>
+    </div> <!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}""></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="./Jumbotron Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>
+  
 
-<!--<script>
-		$(function () {
-		    $('#navbar a:last').tab('show')
-		  })
-
-		function  edit_device(device_id) {
-			var xhr = new XMLHttpRequest();
-	    	xhr.open('GET', 'http://localhost:8000/device/'+device_id.toString()+'/edit/', true);
-	    	
-	    	xhr.onreadystatechange = function() {
-			  if (this.readyState != 4) return;
-
-			  if (this.status == 200) {
-			  	location.reload()
-			  }
-
-			  if (this.status != 200) {
-			    // обработать ошибку
-			    alert( 'Ошибка: запрос на редактировании не выполнен');
-			    return;
-			  }
-			}
-			xhr.send();
-		}
-
-	    function  delete_device(device_id) {
-	    	var xhr = new XMLHttpRequest();
-	    	xhr.open('GET', 'http://localhost:8000/device/'+device_id.toString()+'/delete/', true);
-	    	
-	    	xhr.onreadystatechange = function() {
-			  if (this.readyState != 4) return;
-
-			  if (this.status == 200) {
-			  	location.reload()
-			  }
-
-			  if (this.status != 200) {
-			    // обработать ошибку
-			    alert( 'Ошибка: запрос на удаление не выполнен');
-			    return;
-			  }
-			}
-			xhr.send();
-	    }
-
-	    function  edit_manufacturer(manufacturer_id) {
-	    	var xhr = new XMLHttpRequest();
-	    	xhr.open('GET', 'http://localhost:8000/manufacturer/'+manufacturer_id.toString()+'/edit/', true);
-	    	xhr.onreadystatechange = function() {
-			  if (this.readyState != 4) return;
-
-			  if (this.status == 200) {
-			  	location.reload()
-			  }
-
-			  if (this.status != 200) {
-			    // обработать ошибку
-			    alert( 'Ошибка: запрос на редактировании не выполнен');
-			    return;
-			  }
-			}
-			xhr.send();
-	    }
-
-	    function  delete_manufacturer(manufacturer_id) {
-	    	var xhr = new XMLHttpRequest();
-	    	xhr.open('GET', 'http://localhost:8000/manufacturer/'+manufacturer_id.toString()+'/delete/', true);
-	    	xhr.onreadystatechange = function() {
-			  if (this.readyState != 4) return;
-
-			  if (this.status == 200) {
-			  	location.reload()
-			  }
-
-			  if (this.status != 200) {
-			    // обработать ошибку
-			    alert( 'Ошибка: запрос на удаление не выполнен');
-			    return;
-			  }
-			}
-			xhr.send();
-	    }
-
-	</script>-->
-  </body>
-</html>
+</body></html>
