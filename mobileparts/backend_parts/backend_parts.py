@@ -35,7 +35,7 @@ class Manufacturer():
 @get('/list/')
 def list():
     mans = []
-    db = sqlite3.connect('db.sqlite3')
+    db = sqlite3.connect('db_parts.sqlite3')
     data = db.execute('SELECT * from manufacturers').fetchall()
     db.close()
     for row in data:
@@ -56,7 +56,7 @@ def info(no):
 @route('/show/')
 def show():
     db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT name from manufacturers_manufacturer').fetchall()
+    data = db.execute('SELECT name from manufacturers').fetchall()
 
     if data:
         return template('showitem', rows=data)
