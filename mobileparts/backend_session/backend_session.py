@@ -75,6 +75,29 @@ def create_session():
         response.status = 400
         return json.dumps({"error_description": "Error username or password"})
 
+@post('/session/close')
+def close():
+	try:
+		session_key = request.json["session_key"]
+		user_id = int(session_key[:3])
+        s = db_session.get(session_key)
+        if int(s) == user_id:
+            db = sqlite3.connect('db_session_users.sqlite3')
+            user_data = db.execute('SELECT * from users where id = ?', [user_id]).fetchone()
+            db.close()
+            if user_data:
+                db_session.delete(session_key)
+                response.status = 200
+                return json.dumps({"info": "Session key is deleted"})
+            else:
+                response.status = 401
+                return json.dumps({"error_description": "Session key is not correct"})
+
+    except KeyError:
+        response.status = 400
+        return json.dumps({"error_description": "Error session key"})
+
+
 @post('/create/user/')
 def create_user():
     try:

@@ -26,7 +26,7 @@ def index(request):
             data_session_user = r_user_session.json()
             user_id = data_session_user["id"]
             try:
-                r_user = requests.post("http://users.mobileparts.ru/info/" + str(user_id), data=json.dumps(post_data), headers=headers)
+                r_user = requests.get("http://users.mobileparts.ru/info/" + str(user_id))
                 if r_user.status_code == requests.codes.ok:
                     data_user = r_user.json()
                     print(data_user)
