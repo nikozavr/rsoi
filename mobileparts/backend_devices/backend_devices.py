@@ -96,8 +96,14 @@ def list():
     data = db.execute('SELECT * from devices').fetchall()
     db.close()
     if data:
-        device = Device(data[0],data[1],data[2],data[3],data[4],data[5])
-        return json.dumps(man.as_json())
+        for row in data:
+           device = Device(data[0],data[1],data[2],data[3],data[4],data[5])
+           devices.append(device)
+        results = [ob.as_json() for ob in devices]
+        result = {"count": len(data), "devices":results}
+        response.content_type = "application/json"
+        response.status = 200
+        return json.dumps(result)
     else:
         response.status = 404
         return json.dumps({"error_description": "No device found"})
