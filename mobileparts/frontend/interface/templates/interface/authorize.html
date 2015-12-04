@@ -22,23 +22,25 @@
   </head>
 
   <body>
-
+    
     <div class="container">
 
-      <form class="form-signin" action="{% url 'frontend:login' %}" method="post">
+      <form id="form" class="form-signin" action="http://mobileparts.ru:8000/login/" method="post">
       {% csrf_token %}
       <div id="form">
         <h2 id="top" class="form-signin-heading">Войдите</h2>
-        <label for="login" class="sr-only">Логин</label>
-        <input type="text" id="login" name="login" class="form-control" placeholder="Логин" required autofocus>
+        <label for="username" class="sr-only">Логин</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Логин" required autofocus>
         <label for="password" class="sr-only">Пароль</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button><br>
-        <a class="btn btn-link btn-block" type="button" href="http://localhost:8000/register/">Регистрация</button>
+        <button class="btn btn-lg btn-primary btn-block" id="submitbutton" name="submitbutton" type="submit">Вход</button><br>
+        <a class="btn btn-link btn-block" type="button" href="http://localhost:8000/register/">Регистрация</a>
       </div>
       </form>
 
     </div> <!-- /container -->
+    
+
 
     <script type="text/javascript">
     	var error  = '{{ error_text|escapejs }}';

@@ -81,7 +81,7 @@ def create_user():
         username = request.json["username"]
         password = request.json["password"]
         db = sqlite3.connect('db_session_users.sqlite3')
-        db.close("INSERT into users values (NULL, ?, ?)", [username, password])
+        db.execute("INSERT into users values (NULL, ?, ?)", [username, password])
         user_data = db.execute('SELECT * from users where username = ?', [username]).fetchone()
         db.close()
         if user_data:
@@ -102,10 +102,13 @@ def check():
         session_key = request.json["session_key"]
         user_id = int(session_key[:3])
         s = db_session.get(session_key)
+        print(str(s)
+        print(str(user_id))
         if s == user_id:
             db = sqlite3.connect('db_session_users.sqlite3')
             user_data = db.execute('SELECT * from users where id = ?', [user_id]).fetchone()
             db.close()
+            print(user_data)
             if user_data:
                 response.status = 200
                 return json.dumps({"info": "Session key is correct"})

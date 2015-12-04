@@ -43,15 +43,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Email" class="form-control">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-success">Sign in</button>
-            <button type="submit" class="btn btn-primary">Sign up</button>
-
+            {% if data_user != 0 %}
+	            <a href="#">Добро пожаловать, {{ data_user.first_name }}</a>
+	            <a href="/logout/" class="btn btn-warning">Выйти</a>
+	           {% else %}
+	           		<a href="/login/" class="btn btn-success">Войти</a>
+	           {% endif %}
           </form>
         </div><!--/.navbar-collapse -->
       </div>
@@ -93,6 +90,27 @@
       </footer>
     </div> <!-- /container -->
 
+
+     <script type="text/javascript">
+    	var error  = '{{ error_text|escapejs }}';
+    	if(error!=""){
+    		var div = document.createElement('div');
+  				div.setAttribute('id', "error_message");
+  				div.setAttribute('class', "alert alert-danger");
+  				div.setAttribute('role', 'alert');
+  				div.innerHTML = '<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>  <span class="sr-only">Ошибка:</span>' + error;
+  				
+  				var prev = document.getElementById("error_message");
+  				var element = document.getElementById("form");
+  				var child = document.getElementById("top");
+  				if(prev){
+  					element.replaceChild(div, prev);
+  				} else {
+  					element.insertBefore(div, child);
+  				}
+    	}
+
+    </script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

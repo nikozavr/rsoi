@@ -5,7 +5,7 @@ import sqlite3
 import json
 from bottle import response
 
-class Manufacturer():
+class Part():
     id = None
     name = None
     established = None

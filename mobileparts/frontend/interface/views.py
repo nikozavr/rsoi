@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import logging
-#import requests
+import requests
 import json
 from django.core.cache import cache
 from django.contrib import messages
@@ -16,12 +16,45 @@ def index(request):
 #    post_data = {"login":"nikozavr",
 #                "password":"nikitos1"}
 
-#    headers = {'Content-type': 'application/json'}    
-    logger = logging.getLogger('frontend')
+#    headers = {'Content-type': 'application/json'}
+    if 'session_key' in request.session:
+        post_data = {"session_key":request.session['session_key']}
+        headers = {'Content-type': 'application/json'}
+        r_user_session = requests.post("http://session.mobileparts.ru/check/", data=json.dumps(post_data), headers=headers) 
+        if r_user_session.status_code == requests.codes.ok:
+            print("OK")
+            data_session_user = r_user_session.json()
+            user_id = data_session_user["id"]
+            print("http://users.mobileparts.ru/info/" + str(user_id)) 
+            r_user = requests.post("http://users.mobileparts.ru/info/" + str(user_id), data=json.dumps(post_data), headers=headers)
+            if r_user.status_code == requests.codes.ok:
+                data_user = r_user.json()
+                print(data_user)
+                context = {
+                             "data_user": data_user
+                          }
+                return render(request, 'interface/index.html', context)
+            else:
+                del request.session['session_key']
+                context = {
+                             "data_user": 0,
+                             "error_text": "User information is not available"
+                          }
+                return render(request, 'interface/index.html', context)
+        else:
+            context = {
+                             "data_user": 0
+                          }
+            return render(request, 'interface/index.html', context)
+    else:
+        context = {
+                         "data_user": 0
+                      }
+        return render(request, 'interface/index.html', context)
 
-    context = {'latest_question_list': 0}
-#    return HttpResponse("Ok")
-    return render(request, 'interface/index.html', context)
+    return HttpResponse("Ok")
+    
+    
 """
     r_manufacturers = requests.get("http://localhost:8000/backend_manufacturers/list/")
     try:
@@ -75,32 +108,33 @@ def requests_manager(request):
 
 def register(request):
     return HttpResponse("OK")
+"""
 
+@csrf_exempt
 def login(request):
     if request.method == "POST":
         error_text = ""
-        login = request.POST.get("login", "")
+        username = request.POST.get("username", "")
         password = request.POST.get("password", "")
-        post_data = {"login":login,
+        post_data = {"username":username,
                 "password":password}
 
-        headers = {'Content-type': 'application/json'}    
+        headers = {'Content-type': 'application/json'}  
 
-        r = requests.post("http://localhost:8000/session/create/", data=json.dumps(post_data), headers=headers) 
+        r = requests.post("http://session.mobileparts.ru/create/session/", data=json.dumps(post_data), headers=headers) 
 
         if r.status_code == requests.codes.ok:
             data = r.json()
-            logger = logging.getLogger('lab3')
-            logger.info(data)
             request.session['session_key'] = data["session_key"]
-            return redirect("http://localhost:8000/")
+            return redirect("http://mobileparts.ru:8000/")
         else:
             error_text = "Password is incorrect"
-            return render(request, 'frontend/authorize.html', {"error_text": error_text})
-    if request.method == "GET":
-        return render(request, 'frontend/authorize.html', )    
-    return HttpResponse("Ok")
+            return render(request, 'interface/authorize.html', {"error_text": error_text})
 
+    if request.method == "GET":
+        return render(request, 'interface/authorize.html', )    
+    return HttpResponse("Ok")
+"""
 def logout(request):
     try:
         del request.session['session_key']
