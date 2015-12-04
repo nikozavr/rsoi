@@ -75,7 +75,7 @@ def create_session():
         response.status = 400
         return json.dumps({"error_description": "Error username or password"})
 
-@post('/session/close')
+@post('/session/close/')
 def close():
     try:
         session_key = request.json["session_key"]

@@ -45,6 +45,7 @@ def list():
         results = [ob.as_json() for ob in mans]
         result = {"count": len(data), "manufacturers":results}
         response.content_type = "application/json"
+        response.status = 200
         return json.dumps(result)
     else:
         response.status = 404
@@ -58,10 +59,23 @@ def info(no):
     db.close()
     if data:
         man = Manufacturer(data[0], data[1], data[2], data[3])
+        response.status = 200
         return json.dumps(man.as_json_full())
     else:
         response.status = 404
         return json.dumps({"error_description": "No manufacturer found"})
+
+@get('/name/<no:int>')
+def name(no):
+    db = sqlite3.connect('db_manufacturers.sqlite3')
+    data = db.execute('SELECT name from manufacturers where id = ?', [no]).fetchone()
+    db.close()
+    if data:
+        response.status = 200
+        return json.dumps({"id":no, "name": data[0]})
+    else:
+        response.status = 404
+        return json.dumps({"error_description": "No manufacturer found"})    
 
 
 run(host='0.0.0.0', port=80)

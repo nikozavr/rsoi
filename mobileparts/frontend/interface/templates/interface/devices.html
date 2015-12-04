@@ -57,34 +57,41 @@
     </nav>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Добро пожаловать!</h1>
-        <p>Данный сайт поможет Вам с выбором деталей, необходых для ремонта вашего сматфона. Так же вы сможете оставлять отзывы на запчасти, которыми сами пользовать и советовать другим пользователям, где их приобрести. </p>	
-      </div>
-    </div>
-
     <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Производители</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="http://mobileparts.ru:8000/manufacturers/" role="button">Показать список »</a></p>
+            <div class="row custyle">
+            <table class="table table-striped custab">
+            <thead>
+            {% if data_user != 0 %}
+            
+            {% endif %}
+                <tr>
+                    <th class="col-md-1 text-center">id</th>
+                    <th class="col-md-2 text-center">Название модели</th>
+                    <th class="col-md-2 text-center">Номер модели</th>
+                    <th class="col-md-2 text-center">Производитель</th>
+                    <th class="col-md-1 text-center">Год</th>
+                    {% if data_user != 0 %}
+                    <th class="col-md-2 text-center">Действия</th>
+                    {% endif %}
+                </tr>
+            </thead>
+                {% for device in data_devices.devices %}
+                    <tr>
+                        <td class="text-center">{{ device.id }}</td>
+                        <td class="text-center">{{ device.model_name }}</td>
+                        <td class="text-center">{{ device.model_number }}</td>
+                        <td class="text-center">{{ device.manufacturer }}</td>
+                        <td class="text-center">{{ device.prod_data }}</td> 
+                        {% if data_user != 0 %}
+                        <td class="text-center"><a onclick="edit_device({{ device.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_device({{ device.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                    </tr>
+            </table>
+            </div>
         </div>
-        <div class="col-md-4">
-          <h2>Устройства</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="http://mobileparts.ru:8000/devices/" role="button">Показать список »</a></p>
-       </div>
-        <div class="col-md-4">
-          <h2>Детали</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="http://mobileparts.ru:8000/parts/" role="button">Показать список »</a></p>
-        </div>
-      </div>
-
-      <hr>
 
       <footer>
         <p>© 2015</p>
