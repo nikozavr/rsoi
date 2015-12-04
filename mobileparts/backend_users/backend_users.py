@@ -5,31 +5,36 @@ import sqlite3
 import json
 from bottle import response
 
-class Manufacturer():
+class User():
     id = None
-    name = None
-    established = None
-    country = None
-    info = None
+    first_name = None
+    second_name = None
+    email = None
+    phone = None
 
-    def __init__(self, id, name, year, country):
+    def __init__(self, id, first_name, second_name, email, phone):
         self.id = id
-        self.name = name
-        self.established = year
-        self.country = country
+        self.first_name = first_name
+        self.second_name = second_name
+        self.email = email
+        self.phone = phone
+
+    def __init__(self, id, first_name, second_name):
+        self.id = id
+        self.first_name = first_name
+        self.second_name = second_name   
 
     def as_json(self):
         return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country)
+        	first_name=self.first_name, 
+            second_name=self.second_name)
 
     def as_json_full(self):
         return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country,
-            info=self.info)
+        	first_name=self.first_name, 
+            second_name=self.second_name,
+            email=self.email,
+            phone=self.phone)
 
 
 @get('/list/')
@@ -48,18 +53,31 @@ def list():
 
 @get('/info/<no:int>')
 def info(no):
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT * from manufacturers where id = ?', [no]).fetchone()
-    man = Manufacturer(data[0], data[1], data[2], data[3])
-    return json.dumps(man.as_json_full())
-
-@route('/show/')
-def show():
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT name from manufacturers_manufacturer').fetchall()
-
+    db = sqlite3.connect('db_users.sqlite3')
+    data = db.execute('SELECT id,first_name,second_name from users where id = ?', [no]).fetchone()
     if data:
-        return template('showitem', rows=data)
-    return HTTPError(404, "Page not found")
+        user = User(data[0], data[1], data[2])
+        return json.dumps(man.as_json())
+    else:
+        response.status = 404
+        return json.dumps({"error_description": "No user found"})
+
+@get('/info/all/<no:int>')
+def info(no):
+    db = sqlite3.connect('db_users.sqlite3')
+    data = db.execute('SELECT * from users where id = ?', [no]).fetchone()
+    if data:
+        user = User(data[0], data[1], data[2], data[3], data[4], data[5])
+        return json.dumps(man.as_json_full())
+    else:
+        response.status = 404
+        return json.dumps({"error_description": "No user found"})
+
+@post('/create/')
+def create():
+    first_name = request.json["first_name"]
+    second_name = request.json["second_name"]
+    email = request.json["email"]
+    phone = request.json["phone"]
 
 run(host='127.2.2.2', port=8080)

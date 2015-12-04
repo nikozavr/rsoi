@@ -19,6 +19,15 @@ class User_session():
         self.username = username
         self.password = password
 
+    def getid(self):
+        return self.id
+
+    def getusername(self):
+        return self.username
+        
+    def getpassword(self):
+        return self.password
+
     def as_json(self):
         return dict(id=self.id,
             username=self.username)
@@ -27,12 +36,12 @@ class User_session():
         return True if self.password==password else False 
 
 
-def create_session(user):
-    now = datetime.utcnow().replace(tzinfo=utc)
-    session_key = hashlib.sha224(user.login.encode('utf-8') + user.password.encode('utf-8') + now.strftime(settings.DATE_FORMAT).encode('utf-8')).hexdigest()
-    while cache.get(session_key) != None:
-        session_key = hashlib.sha224(user.login.encode('utf-8') + user.password.encode('utf-8') + now.strftime(settings.DATE_FORMAT).encode('utf-8')).hexdigest()
-    session_key = ("%03d" % user.id) + session_key
+def create_session_key(user):
+    now = datetime.utcnow()
+    session_key = hashlib.sha224(user.getusername().encode('utf-8') + user.getpassword().encode('utf-8') + now.strftime("%c").encode('utf-8')).hexdigest()
+    while db_session.get(session_key) != None:
+        session_key = hashlib.sha224(user.getusername().encode('utf-8') + user.getpassword().encode('utf-8') + now.strftime("%c").encode('utf-8')).hexdigest()
+    session_key = ("%03d" % user.getid()) + session_key
     return session_key
 
 @post('/create/session/')
@@ -40,16 +49,18 @@ def create_session():
     try:     
         username = request.json["username"]
         password = request.json["password"]
+
         db = sqlite3.connect('db_session_users.sqlite3')
         user_data = db.execute('SELECT * from users where username = ?', [username]).fetchone()
         db.close()
         if user_data:
             user = User_session(user_data[0], user_data[1], user_data[2])
-            if check_password:
+            
+            if user.check_password(password):
                 session_key = ""
                 if db_session.get(session_key) != None:  
                     db_session.delete(session_key)
-                session_key = create_session(user)
+                session_key = create_session_key(user)
                 db_session.set(session_key, user.id) 
                 json_data = json.dumps({"user_id": user.id, "session_key": session_key})
                 return json_data
@@ -60,7 +71,7 @@ def create_session():
             response.status = 404
             return json.dumps({"error_description": "Error username or password"})
         return user
-    except ValueError:
+    except KeyError:
         response.status = 400
         return json.dumps({"error_description": "Error username or password"})
 
@@ -81,7 +92,7 @@ def create_user():
             response.status = 501
             return json.dumps({"error_description": "Error: User is not created"})
         return username
-    except ValueError:
+    except KeyError:
         response.status = 400
         return json.dumps({"error_description": "Error username or password"})
 
@@ -104,28 +115,10 @@ def check():
 
         response.status = 401
         return json.dumps({"error_description": "Session key is not correct"})
-    except ValueError:
+    except KeyError:
         response.status = 400
-        return json.dumps({"error_description": "Error username or password"})
+        return json.dumps({"error_description": "Error session key"})
 
-"""
-@get('/info/<no:int>')
-def info(no):
-    db = sqlite3.connect('db_session_users.sqlite3')
-    data = db.execute('SELECT * from manufacturers where id = ?', [no]).fetchone()
-    db.close()
-    man = Manufacturer(data[0], data[1], data[2], data[3])
-    return json.dumps(man.as_json_full())
-
-@route('/show/')
-def show():
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT name from manufacturers_manufacturer').fetchall()
-    db.close()
-    if data:
-        return template('showitem', rows=data)
-    return HTTPError(404, "Page not found")
-"""
 
 if __name__ == "__main__":
     db_session = redis.StrictRedis(host='localhost', port=6379, db=0)
