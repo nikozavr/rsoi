@@ -6,6 +6,7 @@ import requests
 import json
 from django.core.cache import cache
 from django.contrib import messages
+from requests.exceptions import ConnectionError
 
 # Create your views here.
 def home(request):
@@ -22,19 +23,25 @@ def index(request):
         headers = {'Content-type': 'application/json'}
         r_user_session = requests.post("http://session.mobileparts.ru/check/", data=json.dumps(post_data), headers=headers) 
         if r_user_session.status_code == requests.codes.ok:
-            print("OK")
             data_session_user = r_user_session.json()
             user_id = data_session_user["id"]
-            print("http://users.mobileparts.ru/info/" + str(user_id)) 
-            r_user = requests.post("http://users.mobileparts.ru/info/" + str(user_id), data=json.dumps(post_data), headers=headers)
-            if r_user.status_code == requests.codes.ok:
-                data_user = r_user.json()
-                print(data_user)
-                context = {
-                             "data_user": data_user
-                          }
-                return render(request, 'interface/index.html', context)
-            else:
+            try:
+                r_user = requests.post("http://users.mobileparts.ru/info/" + str(user_id), data=json.dumps(post_data), headers=headers)
+                if r_user.status_code == requests.codes.ok:
+                    data_user = r_user.json()
+                    print(data_user)
+                    context = {
+                                 "data_user": data_user
+                              }
+                    return render(request, 'interface/index.html', context)
+                else:
+                    del request.session['session_key']
+                    context = {
+                                 "data_user": 0,
+                                 "error_text": "User information is not available"
+                              }
+                    return render(request, 'interface/index.html', context)
+            except ConnectionError:
                 del request.session['session_key']
                 context = {
                              "data_user": 0,
