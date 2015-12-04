@@ -63,13 +63,5 @@ def info(no):
         response.status = 404
         return json.dumps({"error_description": "No manufacturer found"})
 
-@route('/show/')
-def show():
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT name from manufacturers_manufacturer').fetchall()
-    
-    if data:
-        return template('showitem', rows=data)
-    return HTTPError(404, "Page not found")
 
-run(host='127.2.2.2', port=8080)
+run(host='0.0.0.0', port=80)

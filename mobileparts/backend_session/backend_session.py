@@ -146,4 +146,4 @@ def check():
 if __name__ == "__main__":
     db_session = redis.StrictRedis(host='localhost', port=6379, db=0)
 
-run(host='127.2.2.2', port=8080)
+run(host='0.0.0.0', port=80)

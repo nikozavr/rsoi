@@ -103,4 +103,4 @@ def list():
         return json.dumps({"error_description": "No device found"})
 
 
-run(host='127.2.2.2', port=8080)
+run(host='0.0.0.0', port=80)
