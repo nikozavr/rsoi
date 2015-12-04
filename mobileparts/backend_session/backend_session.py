@@ -77,9 +77,9 @@ def create_session():
 
 @post('/session/close')
 def close():
-	try:
-		session_key = request.json["session_key"]
-		user_id = int(session_key[:3])
+    try:
+        session_key = request.json["session_key"]
+        user_id = int(session_key[:3])
         s = db_session.get(session_key)
         if int(s) == user_id:
             db = sqlite3.connect('db_session_users.sqlite3')
@@ -131,7 +131,7 @@ def check():
             db.close()
             if user_data:
                 response.status = 200
-                return json.dumps({"info": "Session key is correct"})
+                return json.dumps({"info": "Session key is correct","id": user_id})
             else:
                 response.status = 401
                 return json.dumps({"error_description": "Session key is not correct"})

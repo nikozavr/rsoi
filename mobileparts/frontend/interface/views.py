@@ -141,15 +141,21 @@ def login(request):
     if request.method == "GET":
         return render(request, 'interface/authorize.html', )    
     return HttpResponse("Ok")
-"""
+
 def logout(request):
     try:
-        del request.session['session_key']
+        s = request.session['session_key']
+        
+        post_data = {"session_key":s}
+        r = requests.post("http://session.mobileparts.ru/session/close/", data=json.dumps(post_data), headers=headers) 
+        if r.status_code == requests.codes.ok:
+            del request.session['session_key']
+            return redirect("http://mobileparts.ru:8000/")
     except KeyError:
         pass
-    return redirect("http://localhost:8000/")
+    return redirect("http://mobileparts.ru:8000/")
 
-
+"""
 def del_device(request, device_id):
     if request.method == "GET":
         logger = logging.getLogger('lab3')
