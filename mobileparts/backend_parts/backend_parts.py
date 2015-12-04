@@ -48,14 +48,14 @@ def list():
 
 @get('/info/<no:int>')
 def info(no):
-    db = sqlite3.connect('db.sqlite3')
+    db = sqlite3.connect('db_parts.sqlite3')
     data = db.execute('SELECT * from manufacturers where id = ?', [no]).fetchone()
     man = Manufacturer(data[0], data[1], data[2], data[3])
     return json.dumps(man.as_json_full())
 
 @route('/show/')
 def show():
-    db = sqlite3.connect('db.sqlite3')
+    db = sqlite3.connect('db_parts.sqlite3')
     data = db.execute('SELECT name from manufacturers').fetchall()
 
     if data:

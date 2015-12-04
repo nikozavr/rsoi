@@ -35,29 +35,39 @@ class Manufacturer():
 @get('/list/')
 def list():
     mans = []
-    db = sqlite3.connect('db.sqlite3')
+    db = sqlite3.connect('db_manufacturers.sqlite3')
     data = db.execute('SELECT * from manufacturers').fetchall()
     db.close()
-    for row in data:
-       man = Manufacturer(row[0], row[1], row[2], row[3])
-       mans.append(man)
-    results = [ob.as_json() for ob in mans]
-    result = {"count": len(data), "manufacturers":results}
-    response.content_type = "application/json"
-    return json.dumps(result)
+    if data:
+        for row in data:
+           man = Manufacturer(row[0], row[1], row[2], row[3])
+           mans.append(man)
+        results = [ob.as_json() for ob in mans]
+        result = {"count": len(data), "manufacturers":results}
+        response.content_type = "application/json"
+        return json.dumps(result)
+    else:
+        response.status = 404
+        return json.dumps({"error_description": "No manufacturer found"})
+
 
 @get('/info/<no:int>')
 def info(no):
-    db = sqlite3.connect('db.sqlite3')
+    db = sqlite3.connect('db_manufacturers.sqlite3')
     data = db.execute('SELECT * from manufacturers where id = ?', [no]).fetchone()
-    man = Manufacturer(data[0], data[1], data[2], data[3])
-    return json.dumps(man.as_json_full())
+    db.close()
+    if data:
+        man = Manufacturer(data[0], data[1], data[2], data[3])
+        return json.dumps(man.as_json_full())
+    else:
+        response.status = 404
+        return json.dumps({"error_description": "No manufacturer found"})
 
 @route('/show/')
 def show():
     db = sqlite3.connect('db.sqlite3')
     data = db.execute('SELECT name from manufacturers_manufacturer').fetchall()
-
+    
     if data:
         return template('showitem', rows=data)
     return HTTPError(404, "Page not found")
