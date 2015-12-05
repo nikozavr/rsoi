@@ -7,29 +7,35 @@ from bottle import response
 
 class Part():
     id = None
-    name = None
-    established = None
-    country = None
+    device_id = None
+    part = None
+    part_number = None
+    manufacturer_id = None
+    type = None
+    rating = None
+    review_id = None
     info = None
 
-    def __init__(self, id, name, year, country):
+    def __init__(self, id, device_id, part, part_number, manufacturer_id, type, rating, info):
         self.id = id
-        self.name = name
-        self.established = year
-        self.country = country
+        self.device_id = device_id
+        self.part = part
+        self.part_number = part_number
+        self.manufacturer_id = manufacturer_id
+        self.type = type
+        self.rating = rating
+        self.info = info
 
     def as_json(self):
         return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country)
-
-    def as_json_full(self):
-        return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country,
+            device_id=self.device_id,
+        	part=self.part, 
+            part_number =self.part_number,
+            manufacturer_id=self.manufacturer_id,
+            type=self.type,
+            rating=self.rating,
             info=self.info)
+
 
 
 @get('/list/')
