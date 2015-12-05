@@ -8,9 +8,11 @@ urlpatterns = [
 	url(r'^logout/', views.logout, name="logout"),
 	url(r'^register/', views.register, name="register"),
 
-	url(r'^manufacturers/',views.manufacturers, name="manufacturers"),
-	url(r'^devices/',views.devices, name="devices"),
-	url(r'^parts/',views.parts, name="parts"),
+	url(r'^manufacturers/$',views.manufacturers, name="manufacturers"),
+	url(r'^devices/$',views.devices, name="devices"),
+	url(r'^parts/$',views.parts, name="parts"),
+
+	url(r'^parts/info/(?P<part_id>[0-9]+)', views.info_part, name="info_part")
 
 #	url(r'^session/', include('session.urls', namespace="session")),
 #	url(r'^backend_manufacturers/', include('backend_manufacturers.urls', namespace="backend_manufacturers")),

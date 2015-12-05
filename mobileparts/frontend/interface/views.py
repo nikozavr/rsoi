@@ -340,6 +340,71 @@ def parts(request):
         return render(request, 'interface/parts.html', context)
     return HttpResponse("Ok")
 
+def info_part(request, part_id):
+    r_devices = requests.get("http://devices.mobileparts.ru/list/")
+    try:
+        data_devices = r_devices.json()
+    except ValueError:
+        data_devices = {"count": 0}
+
+    r_parts = requests.get("http://parts1.mobileparts.ru/list/")
+    try:
+        data_parts = r_parts.json()
+        for part in data_parts["parts"]:
+            for device in data_devices["devices"]:
+                if device["id"] == part["device_id"]:
+                    part["device_id"] = device["model_name"]
+    except ValueError:
+        data_devices = {"count": 0}
+
+
+    if 'session_key' in request.session:
+        post_data = {"session_key":request.session['session_key']}
+        headers = {'Content-type': 'application/json'}
+        r_user_session = requests.post("http://session.mobileparts.ru/check/", data=json.dumps(post_data), headers=headers) 
+        if r_user_session.status_code == requests.codes.ok:
+            data_session_user = r_user_session.json()
+            user_id = data_session_user["id"]
+            try:
+                r_user = requests.get("http://users.mobileparts.ru/info/" + str(user_id))
+                if r_user.status_code == requests.codes.ok:
+                    data_user = r_user.json()
+                    print(data_user)
+                    context = {
+                                 "data_user": data_user,
+                                 "data_parts":data_parts
+                              }
+                    return render(request, 'interface/info_part.html', context)
+                else:
+                    del request.session['session_key']
+                    context = {
+                                 "data_user": 0,
+                                 "error_text": "User information is not available",
+                                 "data_parts":data_parts
+                              }
+                    return render(request, 'interface/info_part.html', context)
+            except ConnectionError:
+                del request.session['session_key']
+                context = {
+                             "data_user": 0,
+                             "error_text": "User information is not available",
+                                  "data_parts":data_parts
+                          }
+                return render(request, 'interface/info_part.html', context)
+        else:
+            context = {
+                             "data_user": 0,
+                                 "data_parts":data_parts
+                          }
+            return render(request, 'interface/info_part.html', context)
+    else:
+        context = {
+                         "data_user": 0,
+                                 "data_parts":data_parts
+                      }
+        return render(request, 'interface/info_part.html', context)
+    return HttpResponse("Ok")
+
 """
 def del_device(request, device_id):
     if request.method == "GET":
