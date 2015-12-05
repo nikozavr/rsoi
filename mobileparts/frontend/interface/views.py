@@ -133,7 +133,7 @@ def login(request):
         if r.status_code == requests.codes.ok:
             data = r.json()
             request.session['session_key'] = data["session_key"]
-            return redirect("http://mobileparts.ru/")
+            return redirect("http://mobileparts.ru:8000/")
         else:
             error_text = "Password is incorrect"
             return render(request, 'interface/authorize.html', {"error_text": error_text})
@@ -150,10 +150,10 @@ def logout(request):
         r = requests.post("http://session.mobileparts.ru/session/close/", data=json.dumps(post_data), headers=headers) 
         if r.status_code == requests.codes.ok:
             del request.session['session_key']
-            return redirect("http://mobileparts.ru/")
+            return redirect("http://mobileparts.ru:8000/")
     except KeyError:
         pass
-    return redirect("http://mobileparts.ru/")
+    return redirect("http://mobileparts.ru:8000/")
 
 def manufacturers(request):
     r_manufacturers = requests.get("http://manufacturers.mobileparts.ru/list/")
@@ -282,13 +282,13 @@ def parts(request):
     except ValueError:
         data_devices = {"count": 0}
 
-    r_parts = requests.get("http://parts.mobileparts.ru/list/")
+    r_parts = requests.get("http://parts1.mobileparts.ru/list/")
     try:
         data_parts = r_parts.json()
         for part in data_parts["parts"]:
             for device in data_devices["devices"]:
                 if device["id"] == part["device_id"]:
-                    part["device_id"] = device["name"]
+                    part["device_id"] = device["model_name"]
     except ValueError:
         data_devices = {"count": 0}
 
@@ -307,7 +307,7 @@ def parts(request):
                     print(data_user)
                     context = {
                                  "data_user": data_user,
-                                 "data_manufacturers":data_parts
+                                 "data_parts":data_parts
                               }
                     return render(request, 'interface/parts.html', context)
                 else:
@@ -315,7 +315,7 @@ def parts(request):
                     context = {
                                  "data_user": 0,
                                  "error_text": "User information is not available",
-                                 "data_devices":data_parts
+                                 "data_parts":data_parts
                               }
                     return render(request, 'interface/parts.html', context)
             except ConnectionError:
@@ -323,19 +323,19 @@ def parts(request):
                 context = {
                              "data_user": 0,
                              "error_text": "User information is not available",
-                                  "data_devices":data_parts
+                                  "data_parts":data_parts
                           }
                 return render(request, 'interface/parts.html', context)
         else:
             context = {
                              "data_user": 0,
-                                 "data_devices":data_parts
+                                 "data_parts":data_parts
                           }
             return render(request, 'interface/parts.html', context)
     else:
         context = {
                          "data_user": 0,
-                                 "data_devices":data_parts
+                                 "data_parts":data_parts
                       }
         return render(request, 'interface/parts.html', context)
     return HttpResponse("Ok")

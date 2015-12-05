@@ -44,7 +44,7 @@ def list():
     data = db.execute('SELECT * from parts').fetchall()
     db.close()
     for row in data:
-       part = Part(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+       part = Part(row[1], row[2], row[3], row[0], row[4], row[5], row[6], row[7])
        parts.append(part)
     results = [ob.as_json() for ob in parts]
     result = {"count": len(data), "parts":results}

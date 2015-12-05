@@ -71,23 +71,24 @@
                     <th class="col-md-1 text-center">id</th>
                     <th class="col-md-2 text-center">Номер модели</th>
                     <th class="col-md-2 text-center">Устройство</th>
-                    <th class="col-md-2 text-center">Тип</th>
+                    <th class="col-md-1 text-center">Тип</th>
                     <th class="col-md-1 text-center">Оригинальность</th>
                     <th class="col-md-1 text-center">Рейтинг</th>
                     {% if data_user != 0 %}
-                    <th class="col-md-2 text-center">Действия</th>
+                    <th class="col-md-3 text-center">Действия</th>
                     {% endif %}
                 </tr>
             </thead>
-                {% for device in data_devices.devices %}
+                {% for part in data_parts.parts %}
                     <tr>
-                        <td class="text-center">{{ device.id }}</td>
-                        <td class="text-center">{{ device.model_name }}</td>
-                        <td class="text-center">{{ device.model_number }}</td>
-                        <td class="text-center">{{ device.manufacturer_id }}</td>
-                        <td class="text-center">{{ device.prod_data }}</td> 
+                        <td class="text-center">{{ part.id }}</td>
+                        <td class="text-center">{{ part.part_number }}</td>
+                        <td class="text-center">{{ part.device_id }}</td>
+                        <td class="text-center">{{ part.part }}</td>
+                        <td class="text-center">{{ part.type }}</td> 
+                        <td class="text-center">{{ part.rating }}</td> 
                         {% if data_user != 0 %}
-                        <td class="text-center"><a onclick="edit_device({{ device.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_device({{ device.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
+                        <td class="text-center"><a onclick="info_part({{ part.id }})" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-primary"></span> Подробнее</a>  <a onclick="edit_part({{ part.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_part({{ part.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
                         {% endif %}
                     </tr>
                     {% endfor %}
