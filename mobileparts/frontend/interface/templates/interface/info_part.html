@@ -62,66 +62,46 @@
     <div class="page-header" text-align="centr">
 		        <h1>Информация о детали</h1>
 	</div>
-				    <<div class="control-group" id="top">
+				    <div class="control-group" id="top">
               <!-- login -->
-              <label class="col-sm-3 control-label"  for="id">ID</label>
-              <div class="col-sm-9">
-                <lable id="id" name="id" placeholder="" class="input-xlarge">{{ part.id }}</lable>
-                <p class="help-block">Придумайте свой логин</p>
+              <div class="row">
+                <div class="col-md-3">ID</div>
+                <div class="col-md-4">{{ part.id }}</div>
               </div>
-            </div>
-         
-            <div class="control-group">
-              <!-- E-mail -->
-              <label class="col-sm-3 control-label" for="email">E-mail</label>
-              <div class="col-sm-9">
-                <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
-                <p class="help-block">Введите свой email адрес</p>
+
+              <div class="row">
+                <div class="col-md-3">Номер модели</div>
+                <div class="col-md-4">{{ part.part_number }}</div>
               </div>
+              <div class="row">
+                <div class="col-md-3">Устройство</div>
+                <div class="col-md-4">{{ part.device_id }}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">Тип</div>
+                <div class="col-md-4">{{ part.part }}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">Оригинальность</div>
+                <div class="col-md-4">{{ part.type }}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">Рейтинг</div>
+                <div class="col-md-4">{{ part.rating }}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-3">Информация</div>
+                <div class="col-md-4">{{ part.info }}</div>
+              </div>
+
+             <h3>Отзывы</h3>
+             
+
+              
+            
+
             </div>
 
-            <div class="control-group">
-              <!-- E-mail -->
-              <label class="col-sm-3 control-label" for="name">Имя</label>
-              <div class="col-sm-9">
-                <input type="text" id="name" name="name" placeholder="" class="input-xlarge">
-                <p class="help-block">Введите своё имя</p>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <!-- E-mail -->
-              <label class="col-sm-3 control-label" for="phone">Телефон</label>
-              <div class="col-sm-9">
-                <input type="text" id="phone" name="phone" placeholder="" class="input-xlarge">
-                <p class="help-block">Введите свой телефон</p>
-              </div>
-            </div>
-         
-            <div class="control-group">
-              <!-- Password-->
-              <label class="col-sm-3 control-label" for="password">Пароль</label>
-              <div class="col-sm-9">
-                <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
-                <p class="help-block">Пароль должен быть не меньше 6 символов</p>
-              </div>
-            </div>
-         
-            <div class="control-group">
-              <!-- Password -->
-              <label class="col-sm-3 control-label"  for="password_confirm">Пароль<br>(подтверждение)</label>
-              <div class="col-sm-9">
-                <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
-                <p class="help-block">Подтвердите пароль</p>
-              </div>
-            </div>
-         
-            <div class="control-group">
-              <!-- Button -->
-              <div class="button-reg">
-                <button class="btn btn-success btn-lg btn-block" type="submit">Зарегистрировать</button>
-              </div>
-            </div>
             </div>
 				</div>
 

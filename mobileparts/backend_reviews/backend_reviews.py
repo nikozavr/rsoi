@@ -5,53 +5,55 @@ import sqlite3
 import json
 from bottle import response
 
-class Manufacturer():
+class Review():
     id = None
-    name = None
-    established = None
-    country = None
-    info = None
+    user_id = None
+    part_id = None
+    rating = None
+    review = None
 
-    def __init__(self, id, name, year, country):
+    def __init__(self, id, user_id, part_id, rating, review):
         self.id = id
-        self.name = name
-        self.established = year
-        self.country = country
+        self.user_id = user_id
+        self.part_id = part_id
+        self.rating = rating
+        self.review = review
 
     def as_json(self):
         return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country)
-
-    def as_json_full(self):
-        return dict(id=self.id,
-        	name=self.name, 
-            established =self.established,
-            country=self.country,
-            info=self.info)
+            user_id=self.user_id, 
+            part_id=self.part_id,
+            rating=self.rating,
+             review=self.review)
 
 
-@get('/list/')
-def list():
-    mans = []
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT * from manufacturers').fetchall()
+@get('/list/device/<no:int>')
+def list(no):
+    reviews = []
+    db = sqlite3.connect('db_reviews.sqlite3')
+    data = db.execute('SELECT * from reviews where part_id = ?').fetchall()
     db.close()
     for row in data:
-       man = Manufacturer(row[0], row[1], row[2], row[3])
-       mans.append(man)
-    results = [ob.as_json() for ob in mans]
-    result = {"count": len(data), "manufacturers":results}
+       rev = Review(row[4], row[3], row[2], row[0], row[1])
+       reviews.append(rev)
+    results = [ob.as_json() for ob in reviews]
+    result = {"count": len(data), "reviews":results}
     response.content_type = "application/json"
     return json.dumps(result)
 
-@get('/info/<no:int>')
+@get('/list/user/<no:int>')
 def info(no):
-    db = sqlite3.connect('db.sqlite3')
-    data = db.execute('SELECT * from manufacturers where id = ?', [no]).fetchone()
-    man = Manufacturer(data[0], data[1], data[2], data[3])
-    return json.dumps(man.as_json_full())
+    reviews = []
+    db = sqlite3.connect('db_reviews.sqlite3')
+    data = db.execute('SELECT * from reviews where user_id = ?').fetchall()
+    db.close()
+    for row in data:
+       rev = Review(row[4], row[3], row[2], row[0], row[1])
+       reviews.append(rev)
+    results = [ob.as_json() for ob in reviews]
+    result = {"count": len(data), "reviews":results}
+    response.content_type = "application/json"
+    return json.dumps(result)
 
 @route('/show/')
 def show():
