@@ -133,7 +133,7 @@ def login(request):
         if r.status_code == requests.codes.ok:
             data = r.json()
             request.session['session_key'] = data["session_key"]
-            return redirect("http://mobileparts.ru:8000/")
+            return redirect("http://frontend.mobileparts.ru/")
         else:
             error_text = "Password is incorrect"
             return render(request, 'interface/authorize.html', {"error_text": error_text})
@@ -150,10 +150,10 @@ def logout(request):
         r = requests.post("http://session.mobileparts.ru/session/close/", data=json.dumps(post_data), headers=headers) 
         if r.status_code == requests.codes.ok:
             del request.session['session_key']
-            return redirect("http://mobileparts.ru:8000/")
+            return redirect("http://frontend.mobileparts.ru/")
     except KeyError:
         pass
-    return redirect("http://mobileparts.ru:8000/")
+    return redirect("http://frontend.mobileparts.ru/")
 
 def manufacturers(request):
     r_manufacturers = requests.get("http://manufacturers.mobileparts.ru/list/")
