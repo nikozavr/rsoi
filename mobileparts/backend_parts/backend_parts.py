@@ -34,14 +34,14 @@ class Part():
 
 @get('/list/')
 def list():
-    mans = []
+    parts = []
     db = sqlite3.connect('db_parts.sqlite3')
-    data = db.execute('SELECT * from manufacturers').fetchall()
+    data = db.execute('SELECT * from parts').fetchall()
     db.close()
     for row in data:
-       man = Manufacturer(row[0], row[1], row[2], row[3])
-       mans.append(man)
-    results = [ob.as_json() for ob in mans]
+       part = Part(row[0], row[1], row[2], row[3])
+       parts.append(part)
+    results = [ob.as_json() for ob in parts]
     result = {"count": len(data), "manufacturers":results}
     response.content_type = "application/json"
     return json.dumps(result)
