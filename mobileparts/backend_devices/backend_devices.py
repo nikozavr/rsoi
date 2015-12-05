@@ -98,7 +98,7 @@ def list():
     db.close()
     if data:
         for row in data:
-           device = Device(data[0],data[1],data[2],data[3],data[4],data[5])
+           device = Device(row[0],row[1],row[2],row[3],row[4],row[5])
            devices.append(device)
         results = [ob.as_json() for ob in devices]
         result = {"count": len(data), "devices":results}
