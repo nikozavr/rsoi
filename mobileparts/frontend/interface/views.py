@@ -217,11 +217,11 @@ def devices(request):
     except ValueError:
         data_manufacturers = {"count": 0}
 
-    r_manufacturers = requests.get("http://devices.mobileparts.ru/list/")
+    r_devices = requests.get("http://devices.mobileparts.ru/list/")
     try:
-        data_manufacturers = r_manufacturers.json()
+        data_devices = r_devices.json()
     except ValueError:
-        data_manufacturers = {"count": 0}
+        data_devices = {"count": 0}
 
     if 'session_key' in request.session:
         post_data = {"session_key":request.session['session_key']}

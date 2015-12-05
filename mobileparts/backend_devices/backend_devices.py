@@ -92,6 +92,7 @@ def info(no):
 
 @get('/list/')
 def list():
+    devices = []
     db = sqlite3.connect('db_devices.sqlite3')
     data = db.execute('SELECT * from devices').fetchall()
     db.close()
