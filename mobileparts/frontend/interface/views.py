@@ -290,7 +290,7 @@ def parts(request):
                 if device["id"] == part["device_id"]:
                     part["device_id"] = device["model_name"]
     except ValueError:
-        data_devices = {"count": 0}
+        data_parts = {"count": 0}
 
 
     if 'session_key' in request.session:
@@ -347,15 +347,14 @@ def info_part(request, part_id):
     except ValueError:
         data_devices = {"count": 0}
 
-    r_parts = requests.get("http://parts1.mobileparts.ru/list/")
+    r_part = requests.get("http://parts1.mobileparts.ru/info/"+str(part_id))
     try:
-        data_parts = r_parts.json()
-        for part in data_parts["parts"]:
-            for device in data_devices["devices"]:
-                if device["id"] == part["device_id"]:
-                    part["device_id"] = device["model_name"]
+        part = r_part.json() 
+        for device in data_devices["devices"]:
+            if device["id"] == part["device_id"]:
+                part["device_id"] = device["model_name"]
     except ValueError:
-        data_devices = {"count": 0}
+        part = {"id": 0}
 
 
     if 'session_key' in request.session:
@@ -372,7 +371,7 @@ def info_part(request, part_id):
                     print(data_user)
                     context = {
                                  "data_user": data_user,
-                                 "data_parts":data_parts
+                                 "part":part
                               }
                     return render(request, 'interface/info_part.html', context)
                 else:
@@ -380,7 +379,7 @@ def info_part(request, part_id):
                     context = {
                                  "data_user": 0,
                                  "error_text": "User information is not available",
-                                 "data_parts":data_parts
+                                 "part":part
                               }
                     return render(request, 'interface/info_part.html', context)
             except ConnectionError:
@@ -388,19 +387,19 @@ def info_part(request, part_id):
                 context = {
                              "data_user": 0,
                              "error_text": "User information is not available",
-                                  "data_parts":data_parts
+                                  "part":part
                           }
                 return render(request, 'interface/info_part.html', context)
         else:
             context = {
                              "data_user": 0,
-                                 "data_parts":data_parts
+                                 "part":part
                           }
             return render(request, 'interface/info_part.html', context)
     else:
         context = {
                          "data_user": 0,
-                                 "data_parts":data_parts
+                                 "part":part
                       }
         return render(request, 'interface/info_part.html', context)
     return HttpResponse("Ok")

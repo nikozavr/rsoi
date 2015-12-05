@@ -54,7 +54,7 @@ def list():
 @get('/info/<no:int>')
 def info(no):
     db = sqlite3.connect('db_parts.sqlite3')
-    data = db.execute('SELECT * from parts where id = ?', [no]).fetchone()
+    row = db.execute('SELECT * from parts where id = ?', [no]).fetchone()
     db.close()
     part = Part(row[1], row[2], row[3], row[0], row[4], row[5], row[6], row[7])
     return json.dumps(part.as_json())
