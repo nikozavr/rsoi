@@ -64,4 +64,4 @@ def show():
         return template('showitem', rows=data)
     return HTTPError(404, "Page not found")
 
-run(host='127.2.2.2', port=8080)
+run(host='0.0.0.0', port=80)

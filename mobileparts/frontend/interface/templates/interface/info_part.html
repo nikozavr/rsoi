@@ -95,11 +95,12 @@
               </div>
 
              <h3>Отзывы</h3>
-             
+             {% for review in data_reviews %}
                <div class="row">
-                <div class="col-md-3">{{ data_reviews["reviews"][0][review] }}</div>
+
+                <div class="col-md-3">{{ review.review }}</div>
               </div>
-              
+              {% endfor %}
             
 
             </div>

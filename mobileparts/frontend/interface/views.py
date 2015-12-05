@@ -355,7 +355,7 @@ def info_part(request, part_id):
         part = {"id": 0}
 
 
-    r_rev = requests.get("http://review1.mobileparts.ru/list/device/"+str(part["device_id"]))
+    r_rev = requests.get("http://reviews1.mobileparts.ru/list/device/"+str(part["device_id"]))
     try:
         data_reviews = r_rev.json()
     except ValueError:
