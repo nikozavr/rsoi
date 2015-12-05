@@ -242,7 +242,6 @@ def devices(request):
                     print(data_user)
                     context = {
                                  "data_user": data_user,
-                                 "data_manufacturers":data_manufacturers,
                                  "data_devices":data_devices
                               }
                     return render(request, 'interface/devices.html', context)
@@ -251,7 +250,6 @@ def devices(request):
                     context = {
                                  "data_user": 0,
                                  "error_text": "User information is not available",
-                                 "data_manufacturers":data_manufacturers,
                                  "data_devices":data_devices
                               }
                     return render(request, 'interface/devices.html', context)
@@ -260,21 +258,18 @@ def devices(request):
                 context = {
                              "data_user": 0,
                              "error_text": "User information is not available",
-                                 "data_manufacturers":data_manufacturers,
                                  "data_devices":data_devices
                           }
                 return render(request, 'interface/devices.html', context)
         else:
             context = {
                              "data_user": 0,
-                                 "data_manufacturers":data_manufacturers,
                                  "data_devices":data_devices
                           }
             return render(request, 'interface/devices.html', context)
     else:
         context = {
                          "data_user": 0,
-                                 "data_manufacturers":data_manufacturers,
                                  "data_devices":data_devices
                       }
         return render(request, 'interface/devices.html', context)
@@ -290,10 +285,10 @@ def parts(request):
     r_parts = requests.get("http://parts.mobileparts.ru/list/")
     try:
         data_parts = r_parts.json()
-        for device in data_devices["devices"]:
-            for manufacturer in data_manufacturers["manufacturers"]:
-                if manufacturer["id"] == device["manufacturer_id"]:
-                    device["manufacturer_id"] = manufacturer["name"]
+        for part in data_parts["parts"]:
+            for device in data_devices["devices"]:
+                if device["id"] == part["device_id"]:
+                    part["device_id"] = device["name"]
     except ValueError:
         data_devices = {"count": 0}
 
@@ -312,8 +307,7 @@ def parts(request):
                     print(data_user)
                     context = {
                                  "data_user": data_user,
-                                 "data_manufacturers":data_manufacturers,
-                                 "data_devices":data_devices
+                                 "data_manufacturers":data_parts
                               }
                     return render(request, 'interface/parts.html', context)
                 else:
@@ -321,8 +315,7 @@ def parts(request):
                     context = {
                                  "data_user": 0,
                                  "error_text": "User information is not available",
-                                 "data_manufacturers":data_manufacturers,
-                                 "data_devices":data_devices
+                                 "data_devices":data_parts
                               }
                     return render(request, 'interface/parts.html', context)
             except ConnectionError:
@@ -330,22 +323,19 @@ def parts(request):
                 context = {
                              "data_user": 0,
                              "error_text": "User information is not available",
-                                 "data_manufacturers":data_manufacturers,
-                                 "data_devices":data_devices
+                                  "data_devices":data_parts
                           }
                 return render(request, 'interface/parts.html', context)
         else:
             context = {
                              "data_user": 0,
-                                 "data_manufacturers":data_manufacturers,
-                                 "data_devices":data_devices
+                                 "data_devices":data_parts
                           }
             return render(request, 'interface/parts.html', context)
     else:
         context = {
                          "data_user": 0,
-                                 "data_manufacturers":data_manufacturers,
-                                 "data_devices":data_devices
+                                 "data_devices":data_parts
                       }
         return render(request, 'interface/parts.html', context)
     return HttpResponse("Ok")
