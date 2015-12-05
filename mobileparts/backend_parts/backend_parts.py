@@ -13,7 +13,6 @@ class Part():
     manufacturer_id = None
     type = None
     rating = None
-    review_id = None
     info = None
 
     def __init__(self, id, device_id, part, part_number, manufacturer_id, type, rating, info):
@@ -45,10 +44,10 @@ def list():
     data = db.execute('SELECT * from parts').fetchall()
     db.close()
     for row in data:
-       part = Part(row[0], row[1], row[2], row[3])
+       part = Part(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
        parts.append(part)
     results = [ob.as_json() for ob in parts]
-    result = {"count": len(data), "manufacturers":results}
+    result = {"count": len(data), "parts":results}
     response.content_type = "application/json"
     return json.dumps(result)
 

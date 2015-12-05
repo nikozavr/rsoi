@@ -56,42 +56,46 @@
       </div>
     </nav>
 
-    
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="container">
     <div class="page-header" text-align="centr">
-		        <h1>Информация о производителях</h1>
-	</div>
-				    <div class="row custyle">
-				    <table class="table table-striped custab">
-				    <thead>
-				    {% if data_user != 0 %}
-				    {% endif %}
-				        <tr>
-				            <th class="col-md-1 text-center">id</th>
-				            <th class="col-md-2 text-center">Название</th>
-				            <th class="col-md-1 text-center">Год основания</th>
-				            <th class="col-md-2 text-center">Страна</th>
-				            {% if data_user != 0 %}
-				            <th class="col-md-2 text-center">Действия</th>
-				            {% endif %}
-				        </tr>
-				    </thead>
-				    		{% for manufacturer in data_manufacturers.manufacturers %}
-				            <tr>
-				                <td class="text-center">{{ manufacturer.id }}</td>
-				                <td class="text-center">{{ manufacturer.name }}</td>
-				                <td class="text-center">{{ manufacturer.established }}</td>
-				                <td class="text-center">{{ manufacturer.country }}</td> 
-				                {% if data_user != 0 %}
-				                <td class="text-center"><a onclick="edit_manufacturer({{ manufacturer.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_manufacturer({{ manufacturer.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
-				                {% endif %}
-				            </tr>
-				            {% endfor %}
-
-				    </table>
-				    </div>
-				</div>
+            <h1>Информация о деталях</h1>
+  </div>
+            <div class="row custyle">
+            <table class="table table-striped custab">
+            <thead>
+            {% if data_user != 0 %}
+            
+            {% endif %}
+                <tr>
+                    <th class="col-md-1 text-center">id</th>
+                    <th class="col-md-2 text-center">Номер модели</th>
+                    <th class="col-md-2 text-center">Устройство</th>
+                    <th class="col-md-2 text-center">Тип</th>
+                    <th class="col-md-1 text-center">Оригинальность</th>
+                    <th class="col-md-1 text-center">Рейтинг</th>
+                    {% if data_user != 0 %}
+                    <th class="col-md-2 text-center">Действия</th>
+                    {% endif %}
+                </tr>
+            </thead>
+                {% for device in data_devices.devices %}
+                    <tr>
+                        <td class="text-center">{{ device.id }}</td>
+                        <td class="text-center">{{ device.model_name }}</td>
+                        <td class="text-center">{{ device.model_number }}</td>
+                        <td class="text-center">{{ device.manufacturer_id }}</td>
+                        <td class="text-center">{{ device.prod_data }}</td> 
+                        {% if data_user != 0 %}
+                        <td class="text-center"><a onclick="edit_device({{ device.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_device({{ device.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                    </tr>
+            </table>
+            </div>
+        </div>
 
       <footer>
         <p>© 2015</p>

@@ -58,6 +58,9 @@
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="container">
+    <div class="page-header" text-align="centr">
+            <h1>Информация об устройствах</h1>
+  </div>
             <div class="row custyle">
             <table class="table table-striped custab">
             <thead>
@@ -80,7 +83,7 @@
                         <td class="text-center">{{ device.id }}</td>
                         <td class="text-center">{{ device.model_name }}</td>
                         <td class="text-center">{{ device.model_number }}</td>
-                        <td class="text-center">{{ device.manufacturer }}</td>
+                        <td class="text-center">{{ device.manufacturer_id }}</td>
                         <td class="text-center">{{ device.prod_data }}</td> 
                         {% if data_user != 0 %}
                         <td class="text-center"><a onclick="edit_device({{ device.id }})" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Изменить</a> <a onclick="delete_device({{ device.id }})" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Удалить</a></td>
