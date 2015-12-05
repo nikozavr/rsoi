@@ -31,7 +31,7 @@ class Review():
 def list(no):
     reviews = []
     db = sqlite3.connect('db_reviews.sqlite3')
-    data = db.execute('SELECT * from reviews where part_id = ?').fetchall()
+    data = db.execute('SELECT * from reviews where part_id = ?', [no]).fetchall()
     db.close()
     for row in data:
        rev = Review(row[4], row[3], row[2], row[0], row[1])
@@ -45,7 +45,7 @@ def list(no):
 def info(no):
     reviews = []
     db = sqlite3.connect('db_reviews.sqlite3')
-    data = db.execute('SELECT * from reviews where user_id = ?').fetchall()
+    data = db.execute('SELECT * from reviews where user_id = ?', [no]).fetchall()
     db.close()
     for row in data:
        rev = Review(row[4], row[3], row[2], row[0], row[1])
