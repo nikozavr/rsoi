@@ -27,7 +27,7 @@ class Review():
              review=self.review)
 
 
-@get('/list/device/<no:int>')
+@get('/list/part/<no:int>')
 def list(no):
     reviews = []
     db = sqlite3.connect('db_reviews.sqlite3')

@@ -355,9 +355,10 @@ def info_part(request, part_id):
         part = {"id": 0}
 
 
-    r_rev = requests.get("http://reviews1.mobileparts.ru/list/device/"+str(part["device_id"]))
+    r_rev = requests.get("http://reviews1.mobileparts.ru/list/part/"+str(part_id))
     try:
         data_reviews = r_rev.json()
+        print(data_reviews)
     except ValueError:
         data_reviews = {"count": 0}    
 
